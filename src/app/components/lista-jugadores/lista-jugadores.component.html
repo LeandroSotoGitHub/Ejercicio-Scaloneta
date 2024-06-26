@@ -1,0 +1,40 @@
+<h2 class="display-4 m-3">Listado de Jugadores de Argentina</h2>
+
+<button type="button" class="btn btn-primary m-3" (click)="filtrarJugadores('DEL')">Mostrar Delanteros</button>
+<button type="button" class="btn btn-primary m-3" (click)="filtrarJugadores('MED')">Mostrar Mediocampistas</button>
+<button type="button" class="btn btn-primary m-3" (click)="filtrarJugadores('DEF')">Mostrar Defensores</button>
+<button type="button" class="btn btn-primary m-3" (click)="filtrarJugadores('ARQ')">Mostrar Arqueros</button>
+<button type="button" class="btn btn-primary m-3" (click)="filtrarJugadores('')">Mostrar Plantilla completa</button>
+
+<div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">📍</span>
+    <input type="text" class="form-control" placeholder="Buscar jugador por nombre" aria-label="Username" aria-describedby="addon-wrapping" [(ngModel)]="buscarJugador">
+</div>
+
+<button type="button" class="btn btn-primary m-3" (click)="eliminarAlMasViejo()">Eliminar al mas viejo</button>
+<button type="button" class="btn btn-secondary m-3" (click)="resetearPlantilla()">Resetear Plantilla</button>
+<button type="button" class="btn btn-secondary m-3" (click)="calcularPromedioEdad()">Calcular la edad promedio</button>
+<p>Edad promedio de los jugadores: {{ edadPromedio | number: '1.2-2' }}</p>
+
+<table class="table m-3">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Posicion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let jugador of jugadoresArgentina">
+            <ng-container *ngIf="(posicionFiltrada === '' || jugador.posicion === posicionFiltrada) && 
+                (jugador.nombre.toLowerCase().includes(buscarJugador.toLowerCase()) || 
+                jugador.apellido.toLowerCase().includes(buscarJugador.toLowerCase()) || 
+                (jugador.nombre + ' ' + jugador.apellido).toLowerCase().includes(buscarJugador.toLowerCase())
+            )">
+                <th scope="row">{{ jugador.nombre }} {{ jugador.apellido }}</th>
+                <td>{{ jugador.edad }}</td>
+                <td>{{ jugador.posicion }}</td>
+            </ng-container>
+        </tr>
+    </tbody>
+</table>
